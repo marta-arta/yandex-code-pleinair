@@ -7,12 +7,12 @@ function setup() {
   createCanvas(450, 800)
   background('white')
   
-  for (let i = 0; i < 300; i++) {
+  for (let i = 0; i < 500; i++) {
     let crumb = {
       x: width / 2,
       y: height,
-      vx: random(-.1, .1),
-      vy: random(-1, 0),
+      vx: random(0, .05),
+      vy: random(-1.2, 0.1),
     };
     crumbles.push(crumb)
   }
@@ -25,28 +25,11 @@ function draw() {
   for (let i = 0; i < crumbles.length; i++) {
     stroke(117, 78, 77)
     let crumb = crumbles[i];
-    let d = noise(frameCount/20,i) ** 10 * 150
+    let d = noise(frameCount/50,i) ** 10 * 200
     circle(crumb.x, crumb.y, d);
     crumb.x+=crumb.vx
     crumb.y+=crumb.vy
   }
 }
-
-// function drawcrumb(crumb, i) {
-//   let x = crumb.x;
-//   let y = crumb.y;
-//   let d = noise(frameCount / 50, i) * crumb.d;
-//   stroke(193, 135, 169)
-//   push();
-//     translate(x, y);
-//     rotate(frameCount / 10);
-//     push();
-//       scale(1, 0.1);
-//       circle(0, 0, d);
-//     pop();
-//     scale(0.1, 1);
-//     circle(0, 0, d);
-//   pop();
-// }
 
 </script>
