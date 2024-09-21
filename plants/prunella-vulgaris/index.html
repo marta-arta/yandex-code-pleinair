@@ -1,17 +1,52 @@
 <!DOCTYPE html>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
 <script>
-  function setup() {
-    createCanvas(450, 800);
+let crumbles = [];
+
+function setup() {
+  createCanvas(450, 800)
+  background('white')
+  
+  for (let i = 0; i < 300; i++) {
+    let crumb = {
+      x: width / 2,
+      y: height,
+      vx: random(-.1, .1),
+      vy: random(-1, 0),
+    };
+    crumbles.push(crumb)
   }
+}
 
-  function draw() {
-    background("white");
-
-    fill(0, 150, 0);
-    stroke(0, 200, 0, 150);
-    strokeWeight(100);
-
-    circle(width / 2, height / 2, 200);
+function draw() {
+  noFill()
+  strokeWeight(.1)
+  randomSeed(0)
+  for (let i = 0; i < crumbles.length; i++) {
+    stroke(117, 78, 77)
+    let crumb = crumbles[i];
+    let d = noise(frameCount/20,i) ** 10 * 150
+    circle(crumb.x, crumb.y, d);
+    crumb.x+=crumb.vx
+    crumb.y+=crumb.vy
   }
+}
+
+// function drawcrumb(crumb, i) {
+//   let x = crumb.x;
+//   let y = crumb.y;
+//   let d = noise(frameCount / 50, i) * crumb.d;
+//   stroke(193, 135, 169)
+//   push();
+//     translate(x, y);
+//     rotate(frameCount / 10);
+//     push();
+//       scale(1, 0.1);
+//       circle(0, 0, d);
+//     pop();
+//     scale(0.1, 1);
+//     circle(0, 0, d);
+//   pop();
+// }
+
 </script>
