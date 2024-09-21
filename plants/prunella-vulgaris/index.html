@@ -2,6 +2,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
 <script>
 function setup() {
+  let particles = []
+
+function setup() {
   createCanvas(450, 800);
   // randomSeed(42)
   background("white");
@@ -10,27 +13,50 @@ function setup() {
   let angle = -PI / 2;
   let length = 110;
   branch(x, y, angle, length);
+  
+  for (let i = 0; i < 1000; i++) {
+    let particle = {
+      x: width / 2,
+      y: height,
+      vx: random(-.1, .1),
+      vy: random(-1, 0),
+    };
+    particles.push(particle);
+  }
 }
 
 function branch(x, y, angle, length) {
   let x2 = x + cos(angle) * length;
-  let y2 = y + sin(angle) * length;
+  let y2 = y + sin(angle) * length *.8;
   strokeWeight(length / 10);
   line(x, y, x2, y2);
   length *= random(0.62, 1);
-  stroke('#242222')
+  stroke(0.3, 127)
 
   if (random() > 0.9) {
-    fill('#C880AC');
-    circle(x2, y2, 15);
+    stroke('#C880AC');
+    strokeWeight(.1)
+    randomSeed(0)
+    for (let i = 0; i < particles.length; i++) {
+      let particle = particles[i];
+      let d = noise(frameCount/100,i) * 10 * 500
+      circle(particle.x, particle.y, d);
+      particle.x+=particle.vx
+      particle.y+=particle.vy
+      particle.vx+=map(Math.random(),0,1,-.01,.01)
+    }
+    
+    fill(random(256),random(256),128);
+    circle(x2, y2, 35);
   }
 
   if (length < 10) return;
-  if (random() < 0.1 && length < 50) return;
+  if (random() < 0.1 && length < 60) return;
   let dAngle = random(-0.25, 0.25);
   branch(x2, y2, angle + dAngle, length);
   branch(x2, y2, angle - dAngle, length);
 }
+
 
 
 </script>
